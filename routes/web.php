@@ -21,8 +21,6 @@ Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProduct@show_brand_home');
 Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@show_detail_product');
 
 
-
-
 // Backend
 Route::get('/admin', 'AdminController@index');
 Route::get('/dashboard', 'AdminController@show_dashboard');
@@ -64,3 +62,9 @@ Route::get('/active-product/{product_id}', 'ProductController@active_product');
 
 Route::post('/save-product', 'ProductController@save_product');
 Route::post('/update-product/{product_id}', 'ProductController@update_product');
+
+// Cart
+Route::post('/save-cart', 'CartController@save_cart');
+Route::get('/show-cart', 'CartController@show_cart');
+Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
+Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
