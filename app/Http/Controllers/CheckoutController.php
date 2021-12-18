@@ -67,7 +67,16 @@ class CheckoutController extends Controller
     }
 
     public function payment() {
-        dd('đây là trang thanh toán');
+        $cate_product = DB::table('tbl_category_product')
+        ->where('category_status', '0')
+        ->orderBy('category_id', 'desc')->get();
+
+        $brand_product = DB::table('tbl_brand')
+        ->where('brand_status', '0')
+        ->orderBy('brand_id', 'desc')->get();
+
+        return view('pages.checkout.payment')->with('categories', $cate_product)->with('brands', $brand_product);
+
     }
 
     public function logout_checkout() {
@@ -85,5 +94,54 @@ class CheckoutController extends Controller
         } else {
             return redirect('/login-checkout');
         }
+    }
+
+    public function order_place(Request $request) {
+        $cate_product = DB::table('tbl_category_product')
+        ->where('category_status', '0')
+        ->orderBy('category_id', 'desc')->get();
+
+        $brand_product = DB::table('tbl_brand')
+        ->where('brand_status', '0')
+        ->orderBy('brand_id', 'desc')->get();
+
+        // insert payment method
+        $data = array();
+        $data['payment_method'] = $request->payment_option;
+        $data['payment_status'] = 'Đang chờ xử lý';
+
+        $payment_id = DB::table('tbl_payment')->insertGetId($data);
+
+        // insert order
+        $order_data = array();
+        $order_data['customer_id'] = Session::get('customer_id');
+        $order_data['shipping_id'] = Session::get('shipping_id');
+        $order_data['payment_id'] = $payment_id;
+        $order_data['order_total'] = Cart::total();
+        $order_data['order_status'] = 'Đang chờ xử lý';
+
+        $order_id = DB::table('tbl_order')->insertGetId($order_data);
+
+        // insert order_details
+        $order_details_data = array();
+        $content = Cart::content();
+
+        foreach($content as $v_content) {
+            $order_details_data['order_id'] = $order_id;
+            $order_details_data['product_id'] = $v_content->id;
+            $order_details_data['product_name'] = $v_content->name;
+            $order_details_data['product_price'] = $v_content->price;
+            $order_details_data['product_sales_quantity'] = $v_content->qty;
+            DB::table('tbl_order_details')->insert($order_details_data);
+        }
+        
+        if($data['payment_method'] == 1) {
+            dd('thanh toán thẻ ATM');
+        } else {
+            Cart::destroy();
+            return view('pages.checkout.handcast')->with('categories', $cate_product)->with('brands', $brand_product);
+        }
+        
+        //return redirect('/payment');
     }
 }

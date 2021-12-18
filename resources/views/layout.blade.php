@@ -27,6 +27,10 @@
 <!--/head-->
 
 <body>
+    <?php
+        echo Session::get('customer_id');
+        echo Session::get('shipping_id');
+    ?>
     <header id="header">
         <!--header-->
         <div class="header_top">
@@ -98,9 +102,14 @@
 
                                 <?php
                                     $customer_id = Session::get('customer_id');
-                                    if($customer_id = null) {      
+                                    $shipping_id = Session::get('shipping_id');
+                                    if($customer_id != null & $shipping_id == null) {      
                                 ?>
                                 <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <?php
+                                    } elseif($customer_id != null & $shipping_id != null) {
+                                ?>
+                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                                 <?php
                                     } else {
                                 ?>
@@ -108,8 +117,6 @@
                                 <?php
                                     }
                                 ?>
-
-                                
 
                                 <li><a href="{{ URL::to('/show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                                 
