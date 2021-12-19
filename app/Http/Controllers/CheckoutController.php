@@ -165,4 +165,8 @@ class CheckoutController extends Controller
         return view('admin_layout')->with('admin.manage_order', $manager_order);
 
     }
+
+    public function edit_order($orderId) {
+        return view('admin.edit_order');
+    }
 }

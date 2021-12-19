@@ -83,4 +83,5 @@ Route::post('/order-place', 'CheckoutController@order_place');
 
 // Order
 Route::get('/manage-order', 'CheckoutController@manage_order');
+Route::get('/edit-order/{orderId}', 'CheckoutController@edit_order');
 
