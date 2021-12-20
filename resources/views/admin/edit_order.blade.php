@@ -4,7 +4,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Thông tin người mua
+                Thông tin khách hàng
             </div>
 
             <div class="table-responsive">
@@ -24,15 +24,16 @@
                                     <input type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>Tên người mua</th>
-                            <th>Địa chỉ</th>
+                            <th>Tên khách hàng</th>
+                            <th>Số điện thoại</th>
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td></td>
-                            <td></td>
+                            <td>{{ $order_by_id->customer_name }}</td>
+                            <td>{{ $order_by_id->customer_phone }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,7 +66,8 @@
                                     <input type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>Tên người mua</th>
+                            <th>Tên người vận chuyển</th>
+                            <th>Số điện thoại</th>
                             <th>Địa chỉ</th>
                             <th style="width:30px;"></th>
                         </tr>
@@ -73,7 +75,9 @@
                     <tbody>
                         <tr>
                             <td></td>
-                            <td></td>
+                            <td>{{ $order_by_id->shipping_name }}</td>
+                            <td>{{ $order_by_id->shipping_phone }}</td>
+                            <td>{{ $order_by_id->shipping_address }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -125,29 +129,22 @@
                                     <input type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>Tên người đặt</th>
-                            <th>Tổng giá tiền</th>
-                            <th>Tình trạng</th>
-                            <th>Hiển thị</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                            <th>Tổng tiền</th>
                             <th style="width:30px;"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            
                             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="{{ URL::to('/edit-order') }}" class="active styling-edit"
-                                    ui-toggle-class="">
-                                    <i class="fa fa-pencil-square-o text-success text-active"></i></a>
-                                <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng này không ?')"
-                                    href="{{ URL::to('/delete-order') }}" class="active styling-edit"
-                                    ui-toggle-class="">
-                                    <i class="fa fa-times text-danger text"></i>
-                                </a>
-                            </td>
+                            <td>{{ $order_by_id->product_name }}</td>
+                            <td>{{ $order_by_id->product_sales_quantity }}</td>
+                            <td>{{ $order_by_id->product_price }}</td>
+                            <td>{{ $order_by_id->order_total }}</td>
+                 
                         </tr>
                     </tbody>
                 </table>
