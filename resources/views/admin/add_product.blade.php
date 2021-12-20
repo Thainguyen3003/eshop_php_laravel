@@ -35,13 +35,13 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả sản phẩm</label>
                                 <textarea style="resize: none;" rows="5" type="password" name="product_desc"
-                                    class="form-control" id="exampleInputPassword1"
+                                    class="form-control" id="ckeditor1"
                                     placeholder="Mô tả sản phẩm"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nội dung sản phẩm</label>
                                 <textarea style="resize: none;" rows="5" type="password" name="product_content"
-                                    class="form-control" id="exampleInputPassword1"
+                                    class="form-control" id="ckeditor2"
                                     placeholder="Nội dung sản phẩm"></textarea>
                             </div>
                             <div class="form-group">

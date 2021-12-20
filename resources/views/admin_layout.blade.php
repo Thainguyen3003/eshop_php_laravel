@@ -336,11 +336,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </section>
 <!--main content end-->
 </section>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/jquery.slimscroll.js"></script>
-<script src="js/jquery.nicescroll.js"></script>
+<script src="{{ URL::to('js/bootstrap.js')}}"></script>
+<script src="{{ URL::to('js/jquery.dcjqaccordion.2.7.js')}}"></script>
+<script src="{{ URL::to('js/scripts.js')}}"></script>
+<script src="{{ URL::to('js/jquery.slimscroll.js')}}"></script>
+<script src="{{ URL::to('js/jquery.nicescroll.js')}}"></script>
+<script src="{{ URL::to('ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('ckeditor');
+    CKEDITOR.replace('ckeditor1');
+    CKEDITOR.replace('ckeditor2');
+</script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->	
