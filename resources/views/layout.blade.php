@@ -4,9 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="mô tả">
+    <meta name="keywords" content="từ khóa tìm kiếm">
+    <meta name="robots" content="INDEX, FOLLOW">
+    <link rel="canonical" href="">
     <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    <title>Shop bán hàng laravel</title>
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/prettyPhoto.css') }}" rel="stylesheet">
@@ -489,6 +492,8 @@
     <script src="{{ URL::to('js/price-range.js') }}"></script>
     <script src="{{ URL::to('js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ URL::to('js/main.js') }}"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1258897444550073&autoLogAppEvents=1" nonce="vPmZJlq5"></script>
 </body>
 
 </html>

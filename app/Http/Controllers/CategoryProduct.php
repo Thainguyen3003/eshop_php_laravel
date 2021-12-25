@@ -41,6 +41,7 @@ class CategoryProduct extends Controller
         $data = array();
         $data['category_name'] = $request->category_product_name;
         $data['category_desc'] = $request->category_product_desc;
+        /* $data['meta_keywords'] = $request->meta_keywords; */
         $data['category_status'] = $request->category_product_status;
 
         DB::table('tbl_category_product')->insert($data);
@@ -88,6 +89,8 @@ class CategoryProduct extends Controller
         $data = array();
         $data['category_name'] = $request->category_product_name;
         $data['category_desc'] = $request->category_product_desc;
+        /* $data['meta_keywords'] = $request->meta_keywords; */
+        
         DB::table('tbl_category_product')->where('category_id', $category_product_id)->update($data);
         Session::put('message', 'Cập nhật danh mục sản phẩm thành công');
 
@@ -97,7 +100,7 @@ class CategoryProduct extends Controller
 
     // End function admin page
     
-    public function show_category_home($category_id) {
+    public function show_category_home(Request $request, $category_id) {
 
         $cate_product = DB::table('tbl_category_product')
         ->where('category_status', '0')
@@ -109,6 +112,17 @@ class CategoryProduct extends Controller
         $category_by_id = DB::table('tbl_product')
         ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
         ->where('tbl_product.category_id', $category_id)->get();
+        /* if ($category_by_id) {
+            foreach ($category_by_id as $key => $value) {
+                // seo
+                $meta_desc = $value->category_desc;
+                $meta_keywords = $value->meta_keywords;
+                $meta_title = "Trang chủ";
+                $meta_url_canonical = $request->url();
+                // end seo
+            }
+        } */
+        
 
         $category_name = DB::table('tbl_category_product')->where('tbl_category_product.category_id', $category_id)->get();
 
@@ -116,7 +130,11 @@ class CategoryProduct extends Controller
         ->with('categories', $cate_product)
         ->with('brands', $brand_product)
         ->with('category_by_id', $category_by_id)
-        ->with('category_name', $category_name);
+        ->with('category_name', $category_name)
+        /* ->with('meta_keywords', $meta_keywords)
+        ->with('meta_desc', $meta_desc)
+        ->with('meta_title', $meta_title)
+        ->with('meta_url_canonical', $meta_url_canonical)*/;
     }
 
 }

@@ -3,6 +3,9 @@
 
     <div class="features_items">
         <!--features_items-->
+
+        <div class="fb-like" data-href="http://localhost:8000/danh-muc-san-pham/12" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
+
         @foreach ($category_name as $key => $category)
             <h2 class="title text-center">{{ $category->category_name }}</h2>
         @endforeach
@@ -31,7 +34,7 @@
             </a>
         @endforeach
 
-
     </div>
+    <div class="fb-comments" data-href="http://localhost:8000" data-width="" data-numposts="5"></div>
 
 @endsection
