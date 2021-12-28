@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Brand;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Session;
@@ -29,7 +30,8 @@ class BrandProduct extends Controller
     public function all_brand_product() {
         $this->AuthLogin();
 
-        $all_brand_product = DB::table('tbl_brand')->get();
+        /* $all_brand_product = DB::table('tbl_brand')->get(); */
+        $all_brand_product = Brand::all();
         $manager_brand = view('admin.all_brand_product')->with('all_brand_product', $all_brand_product);
         return view('admin_layout')->with('admin.all_brand_product', $manager_brand);
 
@@ -38,12 +40,20 @@ class BrandProduct extends Controller
     public function save_brand_product(Request $request) {
         $this->AuthLogin();
 
-        $data = array();
+        $data = $request->all();
+        $brand = new Brand();
+        $brand->brand_name = $data['brand_product_name'];
+        $brand->brand_desc = $data['brand_product_desc'];
+        $brand->brand_status = $data['brand_product_status'];
+        $brand->save();
+
+        /* $data = array();
         $data['brand_name'] = $request->brand_product_name;
         $data['brand_desc'] = $request->brand_product_desc;
         $data['brand_status'] = $request->brand_product_status;
 
-        DB::table('tbl_brand')->insert($data);
+        DB::table('tbl_brand')->insert($data); */
+
         Session::put('message', 'Thêm thương hiệu sản phẩm thành công');
         return Redirect::to('add-brand-product');
     }
@@ -67,7 +77,8 @@ class BrandProduct extends Controller
     public function edit_brand_product($brand_product_id) {
         $this->AuthLogin();
 
-        $edit_brand_product = DB::table('tbl_brand')->where('brand_id', $brand_product_id)->get();
+        /* $edit_brand_product = DB::table('tbl_brand')->where('brand_id', $brand_product_id)->get(); */
+        $edit_brand_product = Brand::find($brand_product_id);
         $manager_brand = view('admin.edit_brand_product')->with('edit_brand_product', $edit_brand_product);
         return view('admin_layout')->with('admin.edit_brand_product', $manager_brand);
     }
@@ -85,10 +96,12 @@ class BrandProduct extends Controller
     public function update_brand_product(Request $request, $brand_product_id) {
         $this->AuthLogin();
         
-        $data = array();
-        $data['brand_name'] = $request->brand_product_name;
-        $data['brand_desc'] = $request->brand_product_desc;
-        DB::table('tbl_brand')->where('brand_id', $brand_product_id)->update($data);
+        $data = $request->all();
+        $brand = Brand::find($brand_product_id);
+        $brand->brand_name = $data['brand_product_name'];
+        $brand->brand_desc = $data['brand_product_desc'];
+        $brand->save();
+
         Session::put('message', 'Cập nhật thương hiệu sản phẩm thành công');
 
         return Redirect::to('all-brand-product');

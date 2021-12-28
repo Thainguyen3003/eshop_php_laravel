@@ -12,10 +12,10 @@ class HomeController extends Controller
     //
     public function index(Request $request) {
         // seo
-        $meta_desc = "Shop bán quần áo chính hãng";
+        /* $meta_desc = "Shop bán quần áo chính hãng";
         $meta_keywords = "Quần áo nam, quần áo nữ, phụ kiện";
         $meta_title = "Trang chủ";
-        $meta_url_canonical = $request->url();
+        $meta_url_canonical = $request->url(); */
         // end seo
 
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
@@ -32,7 +32,7 @@ class HomeController extends Controller
         ->with('brands', $brand_product)
         ->with('all_product', $all_product)
         ->with('meta_desc', $meta_desc)
-        ->with('meta_keywords', $meta_keywords)
+        /* ->with('meta_keywords', $meta_keywords) */
         ->with('meta_title', $meta_title)
         ->with('meta_url_canonical', $meta_url_canonical);
 
