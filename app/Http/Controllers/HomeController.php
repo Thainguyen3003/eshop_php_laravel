@@ -31,10 +31,10 @@ class HomeController extends Controller
         ->with('categories', $cate_product)
         ->with('brands', $brand_product)
         ->with('all_product', $all_product)
-        ->with('meta_desc', $meta_desc)
+        /* ->with('meta_desc', $meta_desc) */
         /* ->with('meta_keywords', $meta_keywords) */
-        ->with('meta_title', $meta_title)
-        ->with('meta_url_canonical', $meta_url_canonical);
+        /* ->with('meta_title', $meta_title) */
+        /* ->with('meta_url_canonical', $meta_url_canonical) */;
 
     }
 
