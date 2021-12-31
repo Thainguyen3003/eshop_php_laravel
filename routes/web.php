@@ -88,3 +88,10 @@ Route::get('/edit-order/{orderId}', 'CheckoutController@edit_order');
 // Send Mail
 Route::get('/send-mail', 'MailController@send_mail');
 
+// Login Facebook
+Route::get('/login-facebook', 'AdminController@login_facebook');
+Route::get('/admin/callback', 'AdminController@callback_facebook');
+
+// Login Google
+Route::get('/login-google', 'AdminController@login_google');
+Route::get('/google/callback', 'AdminController@callback_google');
