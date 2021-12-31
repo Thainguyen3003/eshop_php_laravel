@@ -10,6 +10,7 @@ use App\Login;
 use App\Social;
 use Socialite;
 use Illuminate\Support\Facades\Redirect;
+use App\Rules\Captcha;
 
 session_start();
 
@@ -126,6 +127,12 @@ class AdminController extends Controller
     public function dashboard(Request $request) {
         $admin_email = $request->admin_email;
         $admin_password = md5($request->admin_password);
+
+        $data = $request->validate([
+            'admin_email' => 'required',
+            'admin_password' => 'required',
+            'g-recaptcha-response' => new Captcha(),
+        ]);
 
         /* $result = DB::table('tbl_admin')->where('admin_email', $admin_email)->where('admin_password', $admin_password)->first(); */
         $login = Login::where('admin_email', $admin_email)->where('admin_password', $admin_password)->first();
