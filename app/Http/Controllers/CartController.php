@@ -11,7 +11,11 @@ session_start();
 
 class CartController extends Controller
 {
-    //
+    public function add_cart_ajax(Request $request) {
+        $data = $request->all();
+        print_r($data);
+    }
+
     public function save_cart(Request $request) {
         $productId = $request->productid_hidden;
         $quantity = $request->qty;

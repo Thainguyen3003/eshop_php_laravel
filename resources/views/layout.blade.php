@@ -17,6 +17,7 @@
     <link href="{{ url('css/animate.css') }}" rel="stylesheet">
     <link href="{{ url('css/main.css') }}" rel="stylesheet">
     <link href="{{ url('css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ url('css/sweetalert.css') }}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -492,9 +493,31 @@
     <script src="{{ URL::to('js/price-range.js') }}"></script>
     <script src="{{ URL::to('js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ URL::to('js/main.js') }}"></script>
+    <script src="{{ URL::to('js/sweetalert.min.js')}}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1258897444550073&autoLogAppEvents=1" nonce="vPmZJlq5"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".add-to-cart").click(function() {
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_' + id).val();
+                var cart_product_name = $('.cart_product_name_' + id).val();
+                var cart_product_image = $('.cart_product_image_' + id).val();
+                var cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{url('/add-cart-ajax')}}",
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id, cart_product_name:cart_product_name, cart_product_image:cart_product_image, cart_product_price:cart_product_price, cart_product_qty:cart_product_qty, _token:_token},
+                    success:function(data) {
+                        alert(data);
+                    } 
+                })
+            })
+        });
+    </script>
 </body>
 
 </html>
