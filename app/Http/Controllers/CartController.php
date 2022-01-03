@@ -11,9 +11,50 @@ session_start();
 
 class CartController extends Controller
 {
+    public function show_cart_ajax() {
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
+        
+        return view('pages.cart.cart_ajax')->with('categories', $cate_product)->with('brands', $brand_product);
+    }
+
     public function add_cart_ajax(Request $request) {
         $data = $request->all();
-        print_r($data);
+        $session_id = substr(md5(microtime()), rand(0,26), 5);
+        $cart = Session::get('cart');
+        if($cart == true) {
+            
+            /* dd('test');
+            $is_available = 0;
+            foreach ($cart as $key => $value) {
+                if($value['product_id'] == $data['product_id']) {
+                    $is_available++;
+                }
+            }
+            if($is_available == 0) {
+                $cart[] = array(
+                    'session_id' => $session_id,
+                    'product_id' => $data['cart_product_id'],
+                    'product_name' => $data['cart_product_name'],
+                    'product_image' => $data['cart_product_image'],
+                    'product_qty' => $data['cart_product_qty'],
+                    'product_price' => $data['cart_product_price'],
+                );
+                Session::put('cart', $cart);
+            } */
+        } else {
+            $cart[] = array(
+                'session_id' => $session_id,
+                'product_id' => $data['cart_product_id'],
+                'product_name' => $data['cart_product_name'],
+                'product_image' => $data['cart_product_image'],
+                'product_qty' => $data['cart_product_qty'],
+                'product_price' => $data['cart_product_price'],
+            );
+        }
+        Session::put('cart', $cart);
+        Session::save();
+
     }
 
     public function save_cart(Request $request) {
@@ -31,7 +72,7 @@ class CartController extends Controller
         $data['options']['image'] = $product_info->product_image;
         Cart::add($data);
         Cart::setGlobalTax(10);
-        //Cart::destroy();  
+        /* Cart::destroy();   */
 
 
         return Redirect::to('/show-cart');
