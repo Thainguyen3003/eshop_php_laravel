@@ -78,7 +78,7 @@ class CartController extends Controller
             foreach ($data['cart_qty'] as $key => $qty) {
                 foreach ($cart as $session => $value) {
                     if($value['session_id'] == $key ) {
-                        $cart[$session]['[product_qty'] = $qty;
+                        $cart[$session]['product_qty'] = $qty;
                     }
                 }
             }
