@@ -35,4 +35,10 @@ class CouponController extends Controller
         return view('admin.coupon.all_coupon')->with(compact('all_coupon'));
     }
 
+    public function delete_coupon($coupon_id) {
+        $coupon = Coupon::find($coupon_id);
+        $coupon->delete();
+        Session::put('message', 'Xóa mã giảm giá thành công');
+        return Redirect::to('/danh-sach-ma-giam-gia');
+    }
 }

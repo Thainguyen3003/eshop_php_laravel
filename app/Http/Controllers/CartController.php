@@ -7,13 +7,49 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Cart;
+use App\Coupon;
 session_start();
 
 class CartController extends Controller
 {
     public function check_coupon(Request $request) {
-        $data = $request->all();
-        dd($data);
+        $coupon = Coupon::where('coupon_code', $request->coupon)->first();
+        if($coupon) {
+            $count_coupon = $coupon->count();
+            if($count_coupon) {
+                $session_coupon = Session::get('coupon');
+                if($session_coupon == true) {
+                    $is_available = 0;
+                    if($is_available == 0) {
+                        $cou[] = array(
+                            'coupon_code' => $coupon->coupon_code,
+                            'coupon_feat' => $coupon->coupon_feat,
+                            'coupon_money' => $coupon->coupon_money,
+                        );
+                        Session::put('coupon', $cou);
+                    }
+                } else {
+                    $cou[] = array(
+                        'coupon_code' => $coupon->coupon_code,
+                        'coupon_feat' => $coupon->coupon_feat,
+                        'coupon_money' => $coupon->coupon_money,
+                    );
+                    Session::put('coupon', $cou);
+                }
+                Session::save();
+                return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Mã giảm giá không đúng');
+        }
+    }
+
+    public function unset_coupon() {
+        $coupon = Session::get('coupon');
+        if($coupon == true) {
+            Session::forget('coupon');
+            return redirect()->back()->with('success', 'Xóa mã giảm giá thành công');
+        }
     }
 
     public function show_cart_ajax() {
@@ -99,6 +135,7 @@ class CartController extends Controller
         if($cart == true) {
             /* Session::destroy(); */
             Session::forget('cart');
+            Session::forget('coupon');
             return redirect()->back()->with('message', 'Xóa toàn bộ sản phẩm trong giỏ hàng thành công');
         }
     }

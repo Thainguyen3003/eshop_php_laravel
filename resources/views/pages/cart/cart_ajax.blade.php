@@ -111,24 +111,74 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="total_area">
-                        <ul>
-                            <li>Tổng <span>{{ number_format($total, 0, ',', '.') }} VNĐ</span></li>
-                            <li>Thuế <span></span></li>
-                            <li>Phí vận chuyển <span>Free</span></li>
-                            <li>Thành tiền <span></span></li>
-                            <form action="{{ url('/kiem-tra-ma-giam-gia') }}" method="post">
-                                @csrf
-                                <br/>
-                                <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br/>
-                                <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá">
-                            </form>
-                        </ul>
-                        {{-- <a class="btn btn-default update" href="">Update</a> --}}
-                        
-                        <a class="btn btn-default check_out" href="">Thanh toán</a>
-                        <a class="btn btn-default check_out" href="{{ url('/xoa-tat-ca-san-pham') }}">Xóa tất cả</a>
-                    </div>
+                    @if (Session::get('cart'))
+                        <div class="total_area">
+                            <ul>
+                                <li>Tổng <span>{{ number_format($total, 0, ',', '.') }} VNĐ</span></li>
+                                @if (Session::get('coupon'))
+                                    <li>Mã giảm giá
+                                        <span>
+                                                @foreach (Session::get('coupon') as $key => $cou)
+                                                    @if($cou['coupon_feat'] == 1)
+                                                        {{ $cou['coupon_code'] .' - '. $cou['coupon_money'] }} %  
+                                                    @else
+                                                        {{ $cou['coupon_code'] .' - '. $cou['coupon_money'] }} VNĐ
+                                                    @endif
+                                                @endforeach                                            
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Mã được giảm
+                                        <span>
+                                            @php
+                                                if ($cou['coupon_feat'] == 1) {
+                                                    $coupon_money = ($total * $cou['coupon_money'])/100;
+                                                    echo number_format($coupon_money, 0, ',', '.') .' VNĐ';
+                                                } else {
+                                                    $coupon_money = $cou['coupon_money'];
+                                                    echo number_format($cou['coupon_money'], 0, ',', '.') .' VNĐ';
+                                                }
+                                                
+                                            @endphp
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Tổng tiền đã áp dụng mã giảm giá
+                                        <span>
+                                            @php
+                                                $total_coupon = $total - $coupon_money;
+                                                echo number_format($total_coupon, 0, ',', '.') . ' VNĐ' 
+                                            @endphp   
+                                        </span>
+                                    </li>
+                                @else
+                                    <li>
+                                        Mã giảm giá
+                                        <span>
+                                            Hãy nhập mã giảm giá ở bên dưới
+                                        </span>
+                                    </li>
+
+                                @endif
+                                <li>Thuế <span></span></li>
+                                <li>Phí vận chuyển <span>Free</span></li>
+                                <li>Thành tiền <span></span></li>
+                                <form action="{{ url('/kiem-tra-ma-giam-gia') }}" method="post">
+                                    @csrf
+                                    <br/>
+                                    <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br/>
+                                    <input type="submit" class="btn btn-warning check_coupon" name="check_coupon" value="Tính mã giảm giá">
+                                    @if (Session::get('coupon'))
+                                        <a class="btn btn-default" onclick="return confirm('Bạn có chắc là muốn bỏ sử dụng mã giảm giá ?')" href="{{ url('/bo-ma-giam-gia') }}">Bỏ mã giảm giá</a>
+                                    @endif
+                                </form>
+                            </ul>
+                            {{-- <a class="btn btn-default update" href="">Update</a> --}}
+                            
+                            <a class="btn btn-default check_out" href="">Thanh toán</a>
+                            <a class="btn btn-default check_out" onclick="return confirm('Bạn có chắc là muốn tất cả sản phẩm trong giỏ này không ?')" href="{{ url('/xoa-tat-ca-san-pham') }}">Xóa tất cả</a>
+                        </div> 
+                    @endif
                 </div>
             </div>
         </div>

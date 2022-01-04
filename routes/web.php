@@ -78,11 +78,13 @@ Route::get('/xoa-tat-ca-san-pham', 'CartController@delete_all_product_ajax');
 
 // Coupon
 Route::post('/kiem-tra-ma-giam-gia', 'CartController@check_coupon');
+Route::get('/bo-ma-giam-gia', 'CartController@unset_coupon');
 
 // admin coupon
 Route::get('/hien-thi-them-ma-giam-gia', 'CouponController@add_coupon');
 Route::post('/them-ma-giam-gia', 'CouponController@add_coupon_code');
 Route::get('/danh-sach-ma-giam-gia', 'CouponController@all_coupon');
+Route::get('/xoa-ma-giam-gia/{coupon_id}', 'CouponController@delete_coupon');
 
 // Checkout
 Route::get('/login-checkout', 'CheckoutController@login_checkout');
