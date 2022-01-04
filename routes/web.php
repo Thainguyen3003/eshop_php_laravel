@@ -72,6 +72,9 @@ Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
 
 Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
 Route::get('/gio-hang', 'CartController@show_cart_ajax');
+Route::post('/cap-nhat-gio-hang', 'CartController@update_cart');
+Route::get('/xoa-san-pham/{session_id}', 'CartController@delete_product_ajax');
+Route::get('/xoa-tat-ca-san-pham', 'CartController@delete_all_product_ajax');
 
 
 // Checkout

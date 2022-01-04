@@ -9,66 +9,99 @@
                     <li class="active">Giỏ hàng của bạn</li>
                 </ol>
             </div>
-            <div class="table-responsive cart_info">
-                <table class="table table-condensed">
-                    <thead>
-                        <tr class="cart_menu">
-                            <td class="image">Hình ảnh</td>
-                            <td class="description">Tên sản phẩm</td>
-                            <td class="price">Giá</td>
-                            <td class="quantity">Số lượng</td>
-                            <td class="total">Thành tiền</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $total = 0;
-                        @endphp
-                        @foreach (Session::get('cart') as $key => $cart)
-                            @php
-                                $subtotal = $cart['product_price'] * $cart['product_qty'];
-                                $total += $subtotal;
-                            @endphp
-                            <tr>
-                                <td class="cart_product">
-                                    <a href=""><img
-                                            src="{{asset('public/uploads/product/' .$cart['product_image'])}}"
-                                            width="100" alt="{{ $cart['product_name'] }}"></a>
-                                </td>
-                                <td class="cart_description">
-                                    <h4><a href=""></a></h4>
-                                    <p>{{ $cart['product_name'] }}</p>
-                                </td>
-                                <td class="cart_price">
-                                    <p>{{ number_format($cart['product_price'], 0, ',', '.') }} VNĐ</p>
-                                </td>
-                                <td class="cart_quantity">
-                                    <div class="cart_quantity_button">
-                                        <form action="" method="post">
-                                            {{ csrf_field() }}
-                                            <input class="cart_quantity_input" type="number" min="1" name="cart_quantity"
-                                                value="{{$cart['product_qty']}}" autocomplete="off" size="2">
-                                            <input type="submit" value="Cập nhật" name="update_qty"
-                                                class="btn btn-default btn-sm">
-                                        </form>
-                                    </div>
-                                </td>
-                                <td class="cart_total">
-                                    <p class="cart_total_price">
-                                        {{ number_format($subtotal, 0, ',', '.') }} VNĐ
-                                    </p>
-                                </td>
-                                <td class="cart_delete">
-                                    <a class="cart_quantity_delete"
-                                        href=""><i
-                                            class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
 
-                    </tbody>
-                </table>
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @elseif (session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
+
+
+            <div class="table-responsive cart_info">
+                <form action="{{ url('/cap-nhat-gio-hang') }}" method="post">
+                    {{ csrf_field() }}
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="cart_menu">
+                                <td class="image">Hình ảnh</td>
+                                <td class="description">Tên sản phẩm</td>
+                                <td class="price">Giá</td>
+                                <td class="quantity">Số lượng</td>
+                                <td class="total">Thành tiền</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total = 0;
+                            @endphp
+                            @if (Session::get('cart') == true)
+
+
+                                @foreach (Session::get('cart') as $key => $cart)
+                                    @php
+                                        $subtotal = $cart['product_price'] * $cart['product_qty'];
+                                        $total += $subtotal;
+                                    @endphp
+                                    <tr>
+                                        <td class="cart_product">
+                                            <a href=""><img
+                                                    src="{{ asset('public/uploads/product/' . $cart['product_image']) }}"
+                                                    width="100" alt="{{ $cart['product_name'] }}"></a>
+                                        </td>
+                                        <td class="cart_description">
+                                            <h4><a href=""></a></h4>
+                                            <p>{{ $cart['product_name'] }}</p>
+                                        </td>
+                                        <td class="cart_price">
+                                            <p>{{ number_format($cart['product_price'], 0, ',', '.') }} VNĐ</p>
+                                        </td>
+                                        <td class="cart_quantity">
+                                            <div class="cart_quantity_button">
+
+                                                <input class="cart_quantity_input" type="number" min="1"
+                                                    name="cart_qty[{{ $cart['session_id'] }}]"
+                                                    value="{{ $cart['product_qty'] }}" autocomplete="off" size="2">
+
+                                            </div>
+                                        </td>
+                                        <td class="cart_total">
+                                            <p class="cart_total_price">
+                                                {{ number_format($subtotal, 0, ',', '.') }} VNĐ
+                                            </p>
+                                        </td>
+                                        <td class="cart_delete">
+                                            <a class="cart_quantity_delete"
+                                                href="{{ url('/xoa-san-pham/' . $cart['session_id']) }}"><i
+                                                    class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+
+                                @endforeach
+                                <tr>
+                                    <td>
+                                        <input type="submit" value="Cập nhật giỏ hàng" name="update_qty"
+                                            class="btn btn-default check_out">
+                                    </td>
+                                </tr>
+                            
+                            @else
+                                <tr>
+                                    <td colspan="5">
+                                        <center>
+                                            Chưa có sản phẩm nào trong giỏ hàng
+                                        </center>
+                                    </td>
+                                </tr>
+                            @endif
+
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
     </section>
@@ -87,6 +120,7 @@
                         </ul>
                         {{-- <a class="btn btn-default update" href="">Update</a> --}}
                         <a class="btn btn-default check_out" href="">Thanh toán</a>
+                        <a class="btn btn-default check_out" href="{{ url('/xoa-tat-ca-san-pham') }}">Xóa tất cả</a>
                     </div>
                 </div>
             </div>
