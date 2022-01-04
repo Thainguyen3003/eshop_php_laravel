@@ -117,8 +117,15 @@
                             <li>Thuế <span></span></li>
                             <li>Phí vận chuyển <span>Free</span></li>
                             <li>Thành tiền <span></span></li>
+                            <form action="{{ url('/kiem-tra-ma-giam-gia') }}" method="post">
+                                @csrf
+                                <br/>
+                                <input type="text" class="form-control" name="coupon" placeholder="Nhập mã giảm giá"><br/>
+                                <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính mã giảm giá">
+                            </form>
                         </ul>
                         {{-- <a class="btn btn-default update" href="">Update</a> --}}
+                        
                         <a class="btn btn-default check_out" href="">Thanh toán</a>
                         <a class="btn btn-default check_out" href="{{ url('/xoa-tat-ca-san-pham') }}">Xóa tất cả</a>
                     </div>

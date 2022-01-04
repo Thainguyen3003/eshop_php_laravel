@@ -76,6 +76,13 @@ Route::post('/cap-nhat-gio-hang', 'CartController@update_cart');
 Route::get('/xoa-san-pham/{session_id}', 'CartController@delete_product_ajax');
 Route::get('/xoa-tat-ca-san-pham', 'CartController@delete_all_product_ajax');
 
+// Coupon
+Route::post('/kiem-tra-ma-giam-gia', 'CartController@check_coupon');
+
+// admin coupon
+Route::get('/hien-thi-them-ma-giam-gia', 'CouponController@add_coupon');
+Route::post('/them-ma-giam-gia', 'CouponController@add_coupon_code');
+Route::get('/danh-sach-ma-giam-gia', 'CouponController@all_coupon');
 
 // Checkout
 Route::get('/login-checkout', 'CheckoutController@login_checkout');

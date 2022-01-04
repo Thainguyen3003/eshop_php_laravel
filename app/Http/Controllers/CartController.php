@@ -11,6 +11,11 @@ session_start();
 
 class CartController extends Controller
 {
+    public function check_coupon(Request $request) {
+        $data = $request->all();
+        dd($data);
+    }
+
     public function show_cart_ajax() {
         $cate_product = DB::table('tbl_category_product')->where('category_status', '0')->orderBy('category_id', 'desc')->get();
         $brand_product = DB::table('tbl_brand')->where('brand_status', '0')->orderBy('brand_id', 'desc')->get();
