@@ -27,6 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- calendar -->
 <link rel="stylesheet" href="{{ url('css/monthly.css') }}">
 <!-- //calendar -->
+<link href="{{ url('css/sweetalert.css') }}" rel="stylesheet">
 <!-- //font-awesome icons -->
 <script src="js/jquery2.0.3.min.js"></script>
 <script src="js/raphael-min.js"></script>
@@ -297,6 +298,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
+                        <span>Vận chuyển</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{ URL::to('/delivery') }}">Quản lí vận chuyển</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
                         <span>Danh mục sản phẩm</span>
                     </a>
                     <ul class="sub">
@@ -353,11 +364,55 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{ URL::to('js/jquery.slimscroll.js')}}"></script>
 <script src="{{ URL::to('js/jquery.nicescroll.js')}}"></script>
 <script src="{{ URL::to('ckeditor/ckeditor.js')}}"></script>
+<script src="{{ URL::to('js/sweetalert.min.js')}}"></script>
 <script type="text/javascript">
     CKEDITOR.replace('ckeditor');
     CKEDITOR.replace('ckeditor1');
     CKEDITOR.replace('ckeditor2');
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.add_delivery').click(function() {
+
+            var city = $('.city').val();
+            var district = $('.district').val();
+            var ward = $('.ward').val();
+            var fee_ship = $('.fee_ship').val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: "{{ url('/add-delivery') }}",
+                method: 'POST',
+                data: {city:city, district: district, ward: ward, fee_ship:fee_ship, _token:_token},
+                success: function(data) {
+                    swal("Thêm phí vận chuyển thành công", "", "success")
+                }
+            })
+        })
+        $('.choose').on('change' ,function() {
+            var action = $(this).attr('id');
+            var ma_id = $(this).val();
+            var _token = $('input[name="_token"]').val();
+            var result = '';
+
+            if (action == 'city') {
+                result = 'district';
+            } else {
+                result = 'ward';
+            }
+            $.ajax({
+                url: "{{ url('/select-delivery') }}",
+                method: 'POST',
+                data: {action:action, ma_id: ma_id, _token: _token},
+                success: function(data) {
+                    $('#' + result).html(data);
+                }
+            })
+        })
+    })
+</script>
+
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="js/jquery.scrollTo.js"></script>
 <!-- morris JavaScript -->	

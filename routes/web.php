@@ -110,3 +110,8 @@ Route::get('/admin/callback', 'AdminController@callback_facebook');
 // Login Google
 Route::get('/login-google', 'AdminController@login_google');
 Route::get('/google/callback', 'AdminController@callback_google');
+
+// Delivery
+Route::get('/delivery', 'DeliveryController@delivery');
+Route::post('/select-delivery', 'DeliveryController@select_delivery');
+Route::post('/add-delivery', 'DeliveryController@add_delivery');
