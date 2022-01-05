@@ -38,6 +38,9 @@
                         <button type="button" name="add_delivery" class="btn btn-info add_delivery">Thêm phí vận chuyển</button>
                     </form>
                 </div>
+                <div id="load_delivery">
+                    
+                </div>
             </div>
         </section>
     </div>

@@ -373,6 +373,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        fetch_delivery();
+
+        function fetch_delivery() {
+            var _token = $('input[name="_token"]').val();
+            
+            $.ajax({
+                url: "{{ url('/select-feeship') }}",
+                method: 'POST',
+                data: { _token:_token },
+                success: function(data) {
+                    $('#load_delivery').html(data)
+                }
+            })
+        }
+
+        $(document).on('blur', '.fee_ship_edit', function() {
+            var feeship_id = $(this).data('feeship_id');
+            var fee_ship = $(this).text();
+            var _token = $('input[name="_token"]').val();
+            
+            $.ajax({
+                url: "{{ url('/update-delivery') }}",
+                method: 'POST',
+                data: {feeship_id:feeship_id, fee_ship: fee_ship, _token:_token},
+                success: function(data) {
+                    fetch_delivery();
+                }
+            })
+        })
+
         $('.add_delivery').click(function() {
 
             var city = $('.city').val();
@@ -386,6 +417,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 method: 'POST',
                 data: {city:city, district: district, ward: ward, fee_ship:fee_ship, _token:_token},
                 success: function(data) {
+                    fetch_delivery();
                     swal("Thêm phí vận chuyển thành công", "", "success")
                 }
             })
