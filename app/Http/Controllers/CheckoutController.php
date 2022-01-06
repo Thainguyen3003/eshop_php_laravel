@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use Cart;
+use App\City;
+use App\District;
+use App\Ward;
+use App\Feeship;
 session_start();
 
 class CheckoutController extends Controller
@@ -58,7 +62,12 @@ class CheckoutController extends Controller
         ->where('brand_status', '0')
         ->orderBy('brand_id', 'desc')->get();
 
-        return view('pages.checkout.show_checkout')->with('categories', $cate_product)->with('brands', $brand_product);
+        $list_cities = City::orderby('matp', 'asc')->get();
+
+        return view('pages.checkout.show_checkout')
+        ->with('categories', $cate_product)
+        ->with('brands', $brand_product)
+        ->with('list_cities', $list_cities);
     }
 
     public function save_checkout_customer(Request $request) {
@@ -178,5 +187,42 @@ class CheckoutController extends Controller
         $manager_order_order_by_id = view('admin.edit_order')->with('order_by_id', $order_by_id);
         return view('admin_layout')->with('admin.edit_order', $manager_order_order_by_id);
 
+    }
+
+    public function select_delivery_checkout(Request $request) {
+        $data = $request->all();
+        $option = '';
+        if($data['action']) {
+            if($data['action'] == 'city') {
+                $select_district = District::where('matp', $data['ma_id'])->orderby('maqh', 'asc')->get();
+                $option .= '<option>---Chọn quận, huyện---</option>';
+                foreach ($select_district as $key => $district) {
+                    $option .= '<option value="'.$district->maqh.'">'.$district->name_quanhuyen.'</option>';
+                }
+            } else {
+                $select_ward = Ward::where('maqh', $data['ma_id'])->orderby('xaid', 'asc')->get();
+                $option .= '<option>---Chọn xã, phường, thị trấn---</option>';
+                foreach ($select_ward as $key => $ward) {
+                    $option .= '<option value="'.$ward->xaid.'">'.$ward->name_xaphuong.'</option>';
+                }
+            }
+        }
+        echo $option;
+    }
+
+    public function calculate_fee(Request $request) {
+        $data = $request->all();
+        if($data['matp']) {
+            $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
+            foreach ($feeship as $key => $fee) {
+                Session::put('fee', $fee->fee_ship);
+                Session::save();
+            }
+        }
+    }
+
+    public function delete_fee() {
+        Session::forget('fee');
+        return redirect()->back();
     }
 }
