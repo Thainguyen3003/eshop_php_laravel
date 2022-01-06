@@ -24,15 +24,44 @@
                             <div class="form-one">
                                 <form action="{{ URL::to('/save-checkout-customer') }}" method="post">
                                     {{ csrf_field() }}
-                                    <input type="text" name="shipping_name" placeholder="Họ và tên *">
-                                    <input type="text" name="shipping_email" placeholder="Email*">
-                                    <input type="text" name="shipping_address" placeholder="Địa chỉ">
-                                    <input type="text" name="shipping_phone" placeholder="Phone *">
-                                    <textarea name="shipping_notes" placeholder="Ghi chú đơn hàng của bạn"
+                                    <input type="text" name="shipping_name" class="shipping_name" placeholder="Họ và tên *">
+                                    <input type="text" name="shipping_email" class="shipping_email" placeholder="Email*">
+                                    <input type="text" name="shipping_address" class="shipping_address" placeholder="Địa chỉ">
+                                    <input type="text" name="shipping_phone" class="shipping_phone" placeholder="Phone *">
+                                    <textarea name="shipping_notes" class="shipping_notes" placeholder="Ghi chú đơn hàng của bạn"
                                         rows="5"></textarea>
-                                    {{-- <input type="submit" value="Tính phí vận chuyển" name="calculate_order"
-                                        class="btn btn-primary btn-sm"> --}}
+                                    
+                                    @if (Session::get('fee'))
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="{{ Session::get('fee') }}">
+                                    @else
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="30000">
+                                    @endif
+
+                                    @if (Session::get('coupon'))
+                                        @foreach (Session::get('coupon') as $key => $cou)
+                                            @if ($cou['coupon_feat'] == 1)
+                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }} %">
+                                            @else
+                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }} VNĐ">
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <input type="hidden" name="order_fee" class="order_fee" class="no">
+                                    @endif
+
+                                    <div class="payment-option">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Chọn hình thức thanh toán</label>
+                                            <select name="shipping_method" id="city" class="form-control input-sm m-bot15 shipping_method">
+                                                <option value="0">Chuyển khoản</option>
+                                                <option value="1">Tiền mặt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="button" value="Xác nhận đơn hàng" name="send_order"
+                                        class="btn btn-primary btn-sm send_order">
                                 </form>
+
                                 <form>
                                     {{ csrf_field() }}
                                     <div class="form-group">
@@ -46,7 +75,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Chọn quận huyện</label>
-                                        <select name="district" id="district" class="form-control input-sm m-bot15 choose district">
+                                        <select name="district" id="district"
+                                            class="form-control input-sm m-bot15 choose district">
                                             <option value="">--Chọn quận, huyện--</option>
                                         </select>
                                     </div>
@@ -207,16 +237,16 @@
                                                     @endif
                                                     <li>Thuế <span></span></li>
                                                     <li>
-                                                        Phí vận chuyển 
+                                                        Phí vận chuyển
                                                         @if (Session::get('fee'))
                                                             <span>
                                                                 @php
                                                                     $fee = Session::get('fee');
                                                                     echo number_format($fee, 0, ',', '.') . ' VNĐ';
                                                                 @endphp
-                                                                    <a class="cart_quantity_delete"
+                                                                <a class="cart_quantity_delete"
                                                                     href="{{ url('/delete-fee') }}"><i
-                                                                    class="fa fa-times"></i></a>
+                                                                        class="fa fa-times"></i></a>
                                                             </span>
                                                         @else
                                                             <span>Hãy chọn địa chỉ</span>

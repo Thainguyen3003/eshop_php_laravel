@@ -11,11 +11,14 @@ use App\City;
 use App\District;
 use App\Ward;
 use App\Feeship;
+use App\Order;
+use App\OrderDetails;
+use App\Shipping;
+
 session_start();
 
 class CheckoutController extends Controller
 {
-    //
     public function AuthLogin() {
         $admin_id = Session::get('admin_id');
         if($admin_id) {
@@ -214,8 +217,13 @@ class CheckoutController extends Controller
         $data = $request->all();
         if($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
-            foreach ($feeship as $key => $fee) {
-                Session::put('fee', $fee->fee_ship);
+            if ($feeship->count() > 0) {
+                foreach ($feeship as $key => $fee) {
+                    Session::put('fee', $fee->fee_ship);
+                    Session::save();
+                }
+            } else {
+                Session::put('fee', 30000);
                 Session::save();
             }
         }
@@ -224,5 +232,27 @@ class CheckoutController extends Controller
     public function delete_fee() {
         Session::forget('fee');
         return redirect()->back();
+    }
+
+    public function confirm_order(Request $request) {
+        $data = $request->all();
+        $shipping = new Shipping();
+        $shipping->shipping_name = $data['shipping_name'];
+        $shipping->shipping_email = $data['shipping_email'];
+        $shipping->shipping_address = $data['shipping_address'];
+        $shipping->shipping_phone = $data['shipping_phone'];
+        $shipping->shipping_notes = $data['shipping_notes'];
+        $shipping->shipping_method = $data['shipping_method'];
+        $shipping->save();
+
+        $order_code = substr(md5(microtime()), rand(0, 26), 5);
+
+        $shipping_id = $shipping->shipping_id;
+        $order = new Order();
+        $order->customer_id = Session::get('customer_id');
+        $order->shipping_id = $shipping_id;
+        $order->order_status = 1;
+        $order->order_code = $order_code;
+        $order->save();
     }
 }

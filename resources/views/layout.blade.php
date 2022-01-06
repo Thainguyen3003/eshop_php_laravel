@@ -497,6 +497,41 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1258897444550073&autoLogAppEvents=1" nonce="vPmZJlq5"></script>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+            $(".send_order").click(function() {
+                var shipping_name = $('.shipping_name').val();
+                var shipping_email = $('.shipping_email').val();
+                var shipping_address = $('.shipping_address').val();
+                var shipping_phone = $('.shipping_phone').val();
+                var shipping_notes = $('.shipping_notes').val();
+                var shipping_method = $('.shipping_method').val();
+                var order_coupon = $('.order_coupon').val();
+                var order_fee = $('.order_fee').val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{url('/confirm-order')}}",
+                    method: 'POST',
+                    data:{
+                        shipping_name:shipping_name,
+                        shipping_email:shipping_email,
+                        shipping_address:shipping_address, 
+                        shipping_phone:shipping_phone,
+                        shipping_notes:shipping_notes,
+                        shipping_method:shipping_method,
+                        order_coupon:order_coupon,
+                        order_fee:order_fee,
+                        _token:_token
+                    },
+                    success:function(data) {
+                        alert("Xác nhận đơn hàng thành công");
+                    } 
+                })
+            })
+        });
+    </script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $(".add-to-cart").click(function() {

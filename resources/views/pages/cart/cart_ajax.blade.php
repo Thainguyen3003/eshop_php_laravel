@@ -177,6 +177,11 @@
                             
                             <a class="btn btn-default check_out" href="">Thanh toán</a>
                             <a class="btn btn-default check_out" onclick="return confirm('Bạn có chắc là muốn tất cả sản phẩm trong giỏ này không ?')" href="{{ url('/xoa-tat-ca-san-pham') }}">Xóa tất cả</a>
+                            @if (Session::get('customer'))
+                                <a class="btn btn-default check_out" href="{{ url('/checkout') }}">Đặt hàng</a>
+                            @else
+                                <a class="btn btn-default check_out" href="{{ url('/login-checkout') }}">Đặt hàng</a>
+                            @endif
                         </div> 
                     @endif
                 </div>

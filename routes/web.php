@@ -98,6 +98,7 @@ Route::post('/order-place', 'CheckoutController@order_place');
 Route::post('/select-delivery-checkout', 'CheckoutController@select_delivery_checkout');
 Route::post('/calculate-fee', 'CheckoutController@calculate_fee');
 Route::get('/delete-fee', 'CheckoutController@delete_fee');
+Route::post('/confirm-order', 'CheckoutController@confirm_order');
 
 // Order
 Route::get('/manage-order', 'CheckoutController@manage_order');
