@@ -40,9 +40,9 @@
                                     @if (Session::get('coupon'))
                                         @foreach (Session::get('coupon') as $key => $cou)
                                             @if ($cou['coupon_feat'] == 1)
-                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }} %">
+                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }}">
                                             @else
-                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }} VNĐ">
+                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }}">
                                             @endif
                                         @endforeach
                                     @else

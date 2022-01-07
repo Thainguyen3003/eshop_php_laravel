@@ -22,18 +22,21 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->
-    <link rel="shortcut icon" href="{{ URL::to('images/ico/favicon.ico')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ URL::to('images/ico/apple-touch-icon-144-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ URL::to('images/ico/apple-touch-icon-114-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ URL::to('images/ico/apple-touch-icon-72-precomposed.png')}}">
-    <link rel="apple-touch-icon-precomposed" href="{{ URL::to('images/ico/apple-touch-icon-57-precomposed.png')}}">
+    <link rel="shortcut icon" href="{{ URL::to('images/ico/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+        href="{{ URL::to('images/ico/apple-touch-icon-144-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+        href="{{ URL::to('images/ico/apple-touch-icon-114-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+        href="{{ URL::to('images/ico/apple-touch-icon-72-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ URL::to('images/ico/apple-touch-icon-57-precomposed.png') }}">
 </head>
 <!--/head-->
 
 <body>
     <?php
-        echo Session::get('customer_id');
-        echo Session::get('shipping_id');
+    echo Session::get('customer_id');
+    echo Session::get('shipping_id');
     ?>
     <header id="header">
         <!--header-->
@@ -109,30 +112,36 @@
                                     $shipping_id = Session::get('shipping_id');
                                     if($customer_id != null & $shipping_id == null) {      
                                 ?>
-                                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                        toán</a></li>
                                 <?php
                                     } elseif($customer_id != null & $shipping_id != null) {
                                 ?>
-                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                        toán</a></li>
                                 <?php
                                     } else {
                                 ?>
-                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                        toán</a></li>
                                 <?php
                                     }
                                 ?>
 
-                                <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-                                
+                                <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ
+                                        hàng</a></li>
+
                                 <?php
                                     $customer_id = Session::get('customer_id');
                                     if($customer_id = null) {      
                                 ?>
-                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-lock"></i> Đăng
+                                        nhập</a></li>
                                 <?php
                                     } else {
                                 ?>
-                                <li><a href="{{ URL::to('/logout-checkout') }}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+                                <li><a href="{{ URL::to('/logout-checkout') }}"><i class="fa fa-lock"></i> Đăng
+                                        xuất</a></li>
                                 <?php
                                     }
                                 ?>
@@ -180,7 +189,8 @@
                             {{ csrf_field() }}
                             <div class="search_box pull-right">
                                 <input type="text" name="keywords_submit" placeholder="Tìm kiếm sản phẩm" />
-                                <input type="submit" style="margin-top:0; color:black;" name="search_items" class="btn btn-primary btn-sm" value="Tìm kiếm">
+                                <input type="submit" style="margin-top:0; color:black;" name="search_items"
+                                    class="btn btn-primary btn-sm" value="Tìm kiếm">
                             </div>
                         </form>
                     </div>
@@ -269,14 +279,16 @@
                         <h2>Danh mục sản phẩm</h2>
                         <div class="panel-group category-products" id="accordian">
                             <!--category-productsr-->
-							@foreach ($categories as $key => $category)
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title"><a href="{{URL::to('/danh-muc-san-pham/' .$category->category_id)}}">{{$category->category_name}}</a></h4>
-									</div>
-								</div>
-								
-							@endforeach
+                            @foreach ($categories as $key => $category)
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title"><a
+                                                href="{{ URL::to('/danh-muc-san-pham/' . $category->category_id) }}">{{ $category->category_name }}</a>
+                                        </h4>
+                                    </div>
+                                </div>
+
+                            @endforeach
 
                         </div>
                         <!--/category-products-->
@@ -286,15 +298,17 @@
                             <h2>Thương hiệu sản phẩm</h2>
                             <div class="brands-name">
                                 <ul class="nav nav-pills nav-stacked">
-									@foreach ($brands as $key => $brand)
-                                    	<li><a href="{{URL::to('/thuong-hieu-san-pham/' .$brand->brand_id)}}"> <span class="pull-right">(50)</span>{{$brand->brand_name}}</a></li>
-									@endforeach
+                                    @foreach ($brands as $key => $brand)
+                                        <li><a href="{{ URL::to('/thuong-hieu-san-pham/' . $brand->brand_id) }}">
+                                                <span class="pull-right">(50)</span>{{ $brand->brand_name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
                         <!--/brands_products-->
 
-                        {{--<div class="price-range">
+                        {{-- <div class="price-range">
                             <!--price-range-->
                             <h2>Price Range</h2>
                             <div class="well text-center">
@@ -303,13 +317,13 @@
                                     id="sl2"><br />
                                 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
                             </div>
-                        </div>--}}
+                        </div> --}}
                         <!--/price-range-->
 
-                        {{--<div class="shipping text-center">
+                        {{-- <div class="shipping text-center">
                             <!--shipping-->
                             <img src="images/home/shipping.jpg" alt="" />
-                        </div>--}}
+                        </div> --}}
                         <!--/shipping-->
 
                     </div>
@@ -493,45 +507,70 @@
     <script src="{{ URL::to('js/price-range.js') }}"></script>
     <script src="{{ URL::to('js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ URL::to('js/main.js') }}"></script>
-    <script src="{{ URL::to('js/sweetalert.min.js')}}"></script>
+    <script src="{{ URL::to('js/sweetalert.min.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1258897444550073&autoLogAppEvents=1" nonce="vPmZJlq5"></script>
-    
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0&appId=1258897444550073&autoLogAppEvents=1"
+        nonce="vPmZJlq5"></script>
+
     <script type="text/javascript">
-    $(document).ready(function() {
+        $(document).ready(function() {
             $(".send_order").click(function() {
-                var shipping_name = $('.shipping_name').val();
-                var shipping_email = $('.shipping_email').val();
-                var shipping_address = $('.shipping_address').val();
-                var shipping_phone = $('.shipping_phone').val();
-                var shipping_notes = $('.shipping_notes').val();
-                var shipping_method = $('.shipping_method').val();
-                var order_coupon = $('.order_coupon').val();
-                var order_fee = $('.order_fee').val();
-                var _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{url('/confirm-order')}}",
-                    method: 'POST',
-                    data:{
-                        shipping_name:shipping_name,
-                        shipping_email:shipping_email,
-                        shipping_address:shipping_address, 
-                        shipping_phone:shipping_phone,
-                        shipping_notes:shipping_notes,
-                        shipping_method:shipping_method,
-                        order_coupon:order_coupon,
-                        order_fee:order_fee,
-                        _token:_token
+
+                swal({
+                        title: "Xác nhận đơn hàng",
+                        text: "Đơn hàng sẽ không được hoàn trả khi đặt, bạn có muốn đặt hàng?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Cảm ơn đã mua hàng",
+                        cancelButtonText: "Trở lại",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
                     },
-                    success:function(data) {
-                        alert("Xác nhận đơn hàng thành công");
-                    } 
-                })
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            var shipping_name = $('.shipping_name').val();
+                        var shipping_email = $('.shipping_email').val();
+                        var shipping_address = $('.shipping_address').val();
+                        var shipping_phone = $('.shipping_phone').val();
+                        var shipping_notes = $('.shipping_notes').val();
+                        var shipping_method = $('.shipping_method').val();
+                        var order_coupon = $('.order_coupon').val();
+                        var order_fee = $('.order_fee').val();
+                        var _token = $('input[name="_token"]').val();
+                        $.ajax({
+                            url: "{{ url('/confirm-order') }}",
+                            method: 'POST',
+                            data: {
+                                shipping_name: shipping_name,
+                                shipping_email: shipping_email,
+                                shipping_address: shipping_address,
+                                shipping_phone: shipping_phone,
+                                shipping_notes: shipping_notes,
+                                shipping_method: shipping_method,
+                                order_coupon: order_coupon,
+                                order_fee: order_fee,
+                                _token: _token
+                            },
+                            success: function(data) {
+                                swal("Đơn hàng", "Đơn hàng của bạn đã được xác nhận", "success");
+                            }
+                        });
+
+                        window.setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+
+                        } else {
+                            swal("Đóng", "Đơn hàng chưa được xác nhận", "error");
+                        }
+                    });
             })
         });
     </script>
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $(".add-to-cart").click(function() {
@@ -543,31 +582,38 @@
                 var cart_product_qty = $('.cart_product_qty_' + id).val();
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{url('/add-cart-ajax')}}",
+                    url: "{{ url('/add-cart-ajax') }}",
                     method: 'POST',
-                    data:{cart_product_id:cart_product_id, cart_product_name:cart_product_name, cart_product_image:cart_product_image, cart_product_price:cart_product_price, cart_product_qty:cart_product_qty, _token:_token},
-                    success:function(data) {
+                    data: {
+                        cart_product_id: cart_product_id,
+                        cart_product_name: cart_product_name,
+                        cart_product_image: cart_product_image,
+                        cart_product_price: cart_product_price,
+                        cart_product_qty: cart_product_qty,
+                        _token: _token
+                    },
+                    success: function(data) {
                         /* alert("Thêm sản phẩm thành công"); */
                         swal({
-                            title: "Đã thêm sản phẩm vào giỏ hàng",
-                            text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
-                            showCancelButton: true,
-                            cancelButtonText: "Xem tiếp",
-                            confirmButtonClass: "btn-success",
-                            confirmButtonText: "Đi đến giỏ hàng",
-                            closeOnConfirm: false
-                        },
-                        function() {
-                            window.location.href = "{{url('/gio-hang')}}"
-                        });
-                    } 
+                                title: "Đã thêm sản phẩm vào giỏ hàng",
+                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                                showCancelButton: true,
+                                cancelButtonText: "Xem tiếp",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Đi đến giỏ hàng",
+                                closeOnConfirm: false
+                            },
+                            function() {
+                                window.location.href = "{{ url('/gio-hang') }}"
+                            });
+                    }
                 })
             })
         });
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.choose').on('change' ,function() {
+            $('.choose').on('change', function() {
                 var action = $(this).attr('id');
                 var ma_id = $(this).val();
                 var _token = $('input[name="_token"]').val();
@@ -581,14 +627,17 @@
                 $.ajax({
                     url: "{{ url('/select-delivery-checkout') }}",
                     method: 'POST',
-                    data: {action:action, ma_id: ma_id, _token: _token},
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
                     success: function(data) {
                         $('#' + result).html(data);
                     }
                 })
             })
         })
-        
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -604,13 +653,18 @@
                     $.ajax({
                         url: "{{ url('/calculate-fee') }}",
                         method: 'POST',
-                        data: {matp:matp, maqh: maqh, xaid: xaid, _token: _token},
+                        data: {
+                            matp: matp,
+                            maqh: maqh,
+                            xaid: xaid,
+                            _token: _token
+                        },
                         success: function() {
                             location.reload();
                         }
                     });
                 }
-                
+
             });
         })
     </script>
