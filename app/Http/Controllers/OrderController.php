@@ -8,6 +8,7 @@ use App\Order;
 use App\OrderDetails;
 use App\Shipping;
 use App\Customer;
+use App\Coupon;
 use Session;
 session_start();
 
@@ -31,9 +32,31 @@ class OrderController extends Controller
         $shipping_id = $order->shipping_id;
         $customer = Customer::where('customer_id', $customer_id)->first();
         $shipping = Shipping::where('shipping_id', $shipping_id)->first();
+        $total = 0;
 
+        foreach($order_details as $key => $detail) {
+            $product_coupon = $detail->product_coupon;
+            $subtotal = $detail->product_price * $detail->product_sales_quantity;
+            $total += $subtotal;
+        }
+        $coupon = Coupon::where('coupon_code', $product_coupon)->first();
+        $total_final = 0;
+
+        if ($product_coupon != 'no') {
+            if ($coupon->coupon_feat == 1) {
+                $total_coupon = ($total*$coupon->coupon_money)/100;
+                $total_final = $total-$total_coupon;
+            } else {
+                $total_coupon = $total - $coupon->coupon_money;
+                $total_final = $total_coupon;
+            }
+        } else {
+            $total_final = $total;
+        }
+        
         $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
-        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'order_details'));
+
+        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'total_final'));
 
     }
 

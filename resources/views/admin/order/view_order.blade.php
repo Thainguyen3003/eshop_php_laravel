@@ -83,6 +83,7 @@
                         <tr>
                             <th>Thứ tự</th>
                             <th>Tên sản phẩm</th>
+                            <th>Mã giảm giá</th>
                             <th>Số lượng</th>
                             <th>Giá sản phẩm</th>
                             <th>Tổng tiền</th>
@@ -101,6 +102,13 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $detail->product_name }}</td>
+                                <td>
+                                    @if ($detail->product_coupon != 'no')
+                                        {{ $detail->product_coupon }}
+                                    @else
+                                        Không có mã giảm giá
+                                    @endif
+                                </td>
                                 <td>{{ $detail->product_sales_quantity }}</td>
                                 <td>{{ number_format($detail->product_price, 0, ',', '.') . ' VNĐ' }}</td>
                                 <td>{{ number_format($subtotal, 0, ',', '.') . ' VNĐ' }}</td>
@@ -111,7 +119,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{{ number_format($total, 0, ',', '.') . ' VNĐ' }}</td>
+                            <td></td>
+                            <td>{{ number_format($total_final, 0, ',', '.') . ' VNĐ' }}</td>
                         </tr>
                     </tbody>
                 </table>

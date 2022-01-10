@@ -32,21 +32,21 @@
                                         rows="5"></textarea>
                                     
                                     @if (Session::get('fee'))
-                                        <input type="hidden" name="order_coupon" class="order_coupon" value="{{ Session::get('fee') }}">
+                                        <input type="hidden" name="order_fee" class="order_fee" value="{{ Session::get('fee') }}">
                                     @else
-                                        <input type="hidden" name="order_coupon" class="order_coupon" value="30000">
+                                        <input type="hidden" name="order_fee" class="order_fee" value="30000">
                                     @endif
 
                                     @if (Session::get('coupon'))
                                         @foreach (Session::get('coupon') as $key => $cou)
                                             @if ($cou['coupon_feat'] == 1)
-                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }}">
+                                                <input type="hidden" name="order_coupon" class="order_coupon" value="{{ $cou['coupon_code'] }}">
                                             @else
-                                                <input type="hidden" name="order_fee" class="order_fee" value="{{ $cou['coupon_code'] }}">
+                                                <input type="hidden" name="order_coupon" class="order_coupon" value="{{ $cou['coupon_code'] }}">
                                             @endif
                                         @endforeach
                                     @else
-                                        <input type="hidden" name="order_fee" class="order_fee" class="no">
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="no">
                                     @endif
 
                                     <div class="payment-option">
