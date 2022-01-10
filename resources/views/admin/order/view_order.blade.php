@@ -140,7 +140,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="{{ url('/print-order/' .$order_code) }}">In đơn hàng</a>
+                <a target="_blank" href="{{ url('/print-order/' .$order_code) }}">In đơn hàng</a>
             </div>
         </div>
     </div>

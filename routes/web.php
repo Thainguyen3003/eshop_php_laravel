@@ -103,7 +103,7 @@ Route::post('/confirm-order', 'CheckoutController@confirm_order');
 // Order
 Route::get('/manage-order', 'OrderController@manage_order');
 Route::get('/view-order/{order_code}', 'OrderController@view_order');
-Route::get('/print-order/{checkout_code}', 'OrderController@print_order');
+Route::get('/print-order/{order_code}', 'OrderController@print_order');
 
 /* Route::get('/manage-order', 'CheckoutController@manage_order');
 Route::get('/edit-order/{orderId}', 'CheckoutController@edit_order'); */
