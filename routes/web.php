@@ -125,3 +125,8 @@ Route::post('/select-delivery', 'DeliveryController@select_delivery');
 Route::post('/add-delivery', 'DeliveryController@add_delivery');
 Route::post('/select-feeship', 'DeliveryController@select_feeship');
 Route::post('/update-delivery', 'DeliveryController@update_delivery');
+
+// banner
+Route::get('/manage-banner', 'BannerController@manage_banner');
+Route::get('/add-banner', 'BannerController@add_banner');
+
