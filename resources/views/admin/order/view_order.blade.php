@@ -115,6 +115,22 @@
                             </tr>
                         @endforeach
                         <tr>
+                            <td>Mã giảm giá được giảm</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ number_format($coupon->coupon_money, 0, ',', '.') . ' VNĐ' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Phí ship</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ number_format($product_feeship, 0, ',', '.') . ' VNĐ' }}</td>
+                        </tr>
+                        <tr>
                             <td>Thanh toán</td>
                             <td></td>
                             <td></td>
@@ -124,6 +140,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <a href="{{ url('/print-order/' .$order_code) }}">In đơn hàng</a>
             </div>
         </div>
     </div>

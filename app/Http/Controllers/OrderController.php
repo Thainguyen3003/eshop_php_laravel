@@ -9,6 +9,7 @@ use App\OrderDetails;
 use App\Shipping;
 use App\Customer;
 use App\Coupon;
+use PDF;
 use Session;
 session_start();
 
@@ -36,6 +37,7 @@ class OrderController extends Controller
 
         foreach($order_details as $key => $detail) {
             $product_coupon = $detail->product_coupon;
+            $product_feeship = $detail->product_feeship;
             $subtotal = $detail->product_price * $detail->product_sales_quantity;
             $total += $subtotal;
         }
@@ -45,18 +47,18 @@ class OrderController extends Controller
         if ($product_coupon != 'no') {
             if ($coupon->coupon_feat == 1) {
                 $total_coupon = ($total*$coupon->coupon_money)/100;
-                $total_final = $total-$total_coupon;
+                $total_final = $total-$total_coupon + $product_feeship;
             } else {
                 $total_coupon = $total - $coupon->coupon_money;
-                $total_final = $total_coupon;
+                $total_final = $total_coupon + $product_feeship;
             }
         } else {
-            $total_final = $total;
+            $total_final = $total + $product_feeship;
         }
         
         $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
-        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'total_final'));
+        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'coupon', 'total_final', 'product_feeship', 'order_code'));
 
     }
 
@@ -65,5 +67,15 @@ class OrderController extends Controller
 
         $list_order = Order::orderby('created_at', 'desc')->get();
         return view('admin.manage_order')->with(compact('list_order'));
+    }
+
+    public function print_order($checkout_code) {
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($this->print_order_convert($checkout_code));
+        return $pdf->stream();
+    }
+
+    public function print_order_convert($checkout_code) {
+        return $checkout_code;
     }
 }
