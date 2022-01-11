@@ -40,6 +40,10 @@ Route::get('/active-category-product/{category_product_id}', 'CategoryProduct@ac
 Route::post('/save-category-product', 'CategoryProduct@save_category_product');
 Route::post('/update-category-product/{category_product_id}', 'CategoryProduct@update_category_product');
 
+Route::post('/import-csv', 'CategoryProduct@import_csv');
+Route::post('/export-csv', 'CategoryProduct@export_csv');
+
+
 // Brand Product
 Route::get('/add-brand-product', 'BrandProduct@add_brand_product');
 Route::get('/edit-brand-product/{brand_product_id}', 'BrandProduct@edit_brand_product');

@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\Imports\ExcelImports;
+use App\Exports\ExcelExports;
+use Excel;
+use App\Category;
 use Session;
 session_start();
 
 class CategoryProduct extends Controller
 {
-    //
     public function AuthLogin() {
         $admin_id = Session::get('admin_id');
         if($admin_id) {
@@ -137,4 +140,13 @@ class CategoryProduct extends Controller
         ->with('meta_url_canonical', $meta_url_canonical)*/;
     }
 
+    public function import_csv(Request $request) {
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new ExcelImports, $path);
+        return back();
+    }
+
+    public function export_csv() {
+        return Excel::download(new ExcelExports, 'category.xlsx');
+    }
 }
