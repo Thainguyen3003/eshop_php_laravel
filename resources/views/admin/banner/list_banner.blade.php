@@ -55,7 +55,7 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $banner->banner_name }}</td>
-            <td>{{ $banner->banner_image }}</td>
+            <td><img src="public/uploads/banner/{{ $banner->banner_image }}" height="100" width="200" ></td>
             <td>{{ $banner->banner_desc }}</td>
             <td><span class="text-ellipsis">
               

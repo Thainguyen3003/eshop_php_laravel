@@ -129,4 +129,6 @@ Route::post('/update-delivery', 'DeliveryController@update_delivery');
 // banner
 Route::get('/manage-banner', 'BannerController@manage_banner');
 Route::get('/add-banner', 'BannerController@add_banner');
-
+Route::post('/save-banner', 'BannerController@save_banner');
+Route::get('/unactive-banner/{banner_id}', 'BannerController@unactive_banner');
+Route::get('/active-banner/{banner_id}', 'BannerController@active_banner');
