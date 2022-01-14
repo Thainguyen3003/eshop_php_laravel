@@ -46,6 +46,7 @@
             </th>
             <th>Tên sản phẩm</th>
             <th>Giá sản phẩm</th>
+            <th>Số lượng sản phẩm</th>
             <th>Hình ảnh sản phẩm</th>
             <th>Danh mục</th>
             <th>Thương hiệu</th>
@@ -58,7 +59,8 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{ $pro->product_name }}</td>
-            <td>{{ $pro->product_price }}</td>
+            <td>{{ number_format($pro->product_price).' VNĐ' }}</td>
+            <td>{{ $pro->product_quantity }}</td>
             <td><img src="public/uploads/product/{{ $pro->product_image }}" height="50" width="50" ></td>
             <td>{{ $pro->category_name }}</td>
             <td>{{ $pro->brand_name }}</td>

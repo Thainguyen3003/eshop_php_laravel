@@ -9,6 +9,7 @@ use App\OrderDetails;
 use App\Shipping;
 use App\Customer;
 use App\Coupon;
+use App\Product;
 use PDF;
 use Session;
 
@@ -30,7 +31,7 @@ class OrderController extends Controller
     {
         $this->AuthLogin();
 
-        $order_details = OrderDetails::where('order_code', $order_code)->get();
+        $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
         $order = Order::where('order_code', $order_code)->first();
         $customer_id = $order->customer_id;
         $shipping_id = $order->shipping_id;
@@ -59,9 +60,7 @@ class OrderController extends Controller
             $total_final = $total + $product_feeship;
         }
 
-        $order_details_product = OrderDetails::with('product')->where('order_code', $order_code)->get();
-
-        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'coupon', 'total_final', 'product_feeship', 'order_code'));
+        return view('admin.order.view_order')->with(compact('order_details', 'customer', 'shipping', 'coupon', 'total_final', 'product_feeship', 'order_code', 'order'));
     }
 
     public function manage_order()
@@ -214,5 +213,30 @@ class OrderController extends Controller
         ';
 
         return $output;
+    }
+
+    public function update_order_status(Request $request) {
+        // update order status
+        $order = Order::find($request->order_id);
+        $order->order_status = $request->order_status;
+        $order->save();
+
+        //
+        if($order->order_status == 2) {
+            foreach ($request->order_product_id as $key1 => $product_id) {
+                $product = Product::find($product_id);
+                $product_quantity = $product->product_quantity;
+                $product_sold = $product->product_sold;
+                foreach ($request->product_sales_quantity as $key2 => $qty) {
+
+                    if($key1 == $key2) {
+                        $pro_remain = $product_quantity - $qty;
+                        $product->product_quantity = $pro_remain;
+                        $product->product_sold = $product_sold + $qty;
+                        $product->save();
+                    }
+                }
+            }
+        }
     }
 }

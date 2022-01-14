@@ -21,7 +21,12 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên sản phẩm</label>
                                 <input type="text" name="product_name" class="form-control" id="exampleInputEmail1"
-                                    placeholder="Tên danh mục" />
+                                    placeholder="Tên sản phẩm" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                <input type="text" name="product_quantity" class="form-control" id="exampleInputEmail1"
+                                    placeholder="Só lượng sản phẩm" />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Giá sản phẩm</label>
@@ -46,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Danh mục sản phẩm</label>
-                                <select name="product_cate" class="form-control input-sm m-bot15">
+                                <select name="category_id" class="form-control input-sm m-bot15">
                                     @foreach ($cate_product as $key => $cate)
                                         <option value="{{ $cate->category_id }}">{{ $cate->category_name }}</option>
                                     @endforeach
@@ -54,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Thương hiệu sản phẩm</label>
-                                <select name="product_brand" class="form-control input-sm m-bot15">
+                                <select name="brand_id" class="form-control input-sm m-bot15">
                                     @foreach ($brand_product as $key => $brand)
                                         <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
                                     @endforeach

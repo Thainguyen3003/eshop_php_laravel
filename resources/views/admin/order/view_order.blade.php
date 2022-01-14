@@ -8,7 +8,7 @@
             </div>
 
             <div class="table-responsive">
-       
+
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="table-responsive">
-    
+
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
@@ -77,12 +77,13 @@
             </div>
 
             <div class="table-responsive">
-    
+
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
                             <th>Thứ tự</th>
                             <th>Tên sản phẩm</th>
+                            <th>Số lượng kho</th>
                             <th>Mã giảm giá</th>
                             <th>Số lượng</th>
                             <th>Giá sản phẩm</th>
@@ -102,6 +103,7 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $detail->product_name }}</td>
+                                <td>{{ $detail->product->product_quantity }}</td>
                                 <td>
                                     @if ($detail->product_coupon != 'no')
                                         {{ $detail->product_coupon }}
@@ -109,13 +111,18 @@
                                         Không có mã giảm giá
                                     @endif
                                 </td>
-                                <td>{{ $detail->product_sales_quantity }}</td>
+                                <td>
+                                    <input type="number" min="1" value="{{ $detail->product_sales_quantity }}" name="product_sales_quantity">
+                                    <input type="hidden" name="order_product_id" class="order_product_id" value="{{ $detail->product_id }}">
+                                    <button class="btn btn-default" name="update-quantity">Cập nhật</button>
+                                </td>
                                 <td>{{ number_format($detail->product_price, 0, ',', '.') . ' VNĐ' }}</td>
                                 <td>{{ number_format($subtotal, 0, ',', '.') . ' VNĐ' }}</td>
                             </tr>
                         @endforeach
                         <tr>
                             <td>Mã giảm giá được giảm</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -128,6 +135,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td>{{ number_format($product_feeship, 0, ',', '.') . ' VNĐ' }}</td>
                         </tr>
                         <tr>
@@ -136,11 +144,27 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td>{{ number_format($total_final, 0, ',', '.') . ' VNĐ' }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <form action="" method="POST">
+                                    @csrf
+                                    <select class="form-control order_status" name="order_status">
+                                        <option value="">-----Chọn hình thức đơn hàng-----</option>
+                                        <option id="{{ $order->order_id }}" value="1">Chưa xử lí</option>
+                                        <option id="{{ $order->order_id }}" value="2">Đã xử lý - Đã giao hàng</option>
+                                        <option id="{{ $order->order_id }}" value="3">Hủy đơn hàng - tạm giữ</option>
+                                    </select>
+                                </form>
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
-                <a target="_blank" href="{{ url('/print-order/' .$order_code) }}">In đơn hàng</a>
+
+                <a target="_blank" href="{{ url('/print-order/' . $order_code) }}">In đơn hàng</a>
             </div>
         </div>
     </div>

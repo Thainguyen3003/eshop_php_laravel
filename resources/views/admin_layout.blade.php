@@ -30,6 +30,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="{{ url('css/sweetalert.css') }}" rel="stylesheet">
 <!-- //font-awesome icons -->
 <script src="js/jquery2.0.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="js/raphael-min.js"></script>
 <script src="js/morris.js"></script>
 </head>
@@ -383,6 +384,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 
 <script type="text/javascript">
+    
     $(document).ready(function() {
 
         fetch_delivery();
@@ -433,6 +435,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             })
         })
+
         $('.choose').on('change' ,function() {
             var action = $(this).attr('id');
             var ma_id = $(this).val();
@@ -453,6 +456,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 }
             })
         })
+        $(".order_status").on('change', function(){
+            var order_status = $(this).val();
+            var order_id = $(this).children(":selected").attr("id");
+            var _token = $('input[name="_token"]').val();
+
+            // Lay ra so luong
+            product_sales_quantity = [];
+            $("input[name='product_sales_quantity']").each(function() {
+                product_sales_quantity.push($(this).val());
+            });
+            // lay ra product id
+            order_product_id = [];
+            $("input[name='order_product_id']").each(function() {
+                order_product_id.push($(this).val());
+            });
+            
+            $.ajax({
+                url: "{{ url('/update-order-status') }}",
+                method: 'POST',
+                data: {
+                    order_status: order_status,
+                    order_id: order_id,
+                    product_sales_quantity: product_sales_quantity,
+                    order_product_id: order_product_id,
+                    _token: _token
+                },
+                success: function(data) {
+                    alert('Cập nhật số lượng thành công');
+                }
+            })
+        });
     })
 </script>
 
