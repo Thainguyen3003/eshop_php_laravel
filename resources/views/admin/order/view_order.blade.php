@@ -112,9 +112,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <input type="number" min="1" value="{{ $detail->product_sales_quantity }}" name="product_sales_quantity">
-                                    <input type="hidden" name="order_product_id" class="order_product_id" value="{{ $detail->product_id }}">
-                                    <button class="btn btn-default" name="update-quantity">Cập nhật</button>
+                                    <form action="" method="post">
+                                        <input type="number" min="1" class="order_qty_{{$detail->product_id}}" value="{{ $detail->product_sales_quantity }}" name="product_sales_quantity">
+                                        <input type="hidden" name="order_code" class="order_code" value="{{ $detail->order_code }}">
+                                        <input type="hidden" name="order_product_id" class="order_product_id" value="{{ $detail->product_id }}">
+                                        <button type="button" class="btn btn-default update_quantity_order" data-product_id="{{$detail->product_id}}" name="update-quantity">Cập nhật</button>
+                                    </form>
                                 </td>
                                 <td>{{ number_format($detail->product_price, 0, ',', '.') . ' VNĐ' }}</td>
                                 <td>{{ number_format($subtotal, 0, ',', '.') . ' VNĐ' }}</td>
