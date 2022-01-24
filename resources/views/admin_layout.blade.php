@@ -524,7 +524,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     order_product_id.push($(this).val());
                 });
 
-                $.ajax({
+                j = 0;
+                for (let i = 0; i < order_product_id.length; i++) {
+                    // so luong khach dat
+                    var order_qty = $('.order_qty_' + order_product_id[i]).val();
+                    // so luong ton kho
+                    var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
+
+                    if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+                        j = j + 1;
+                        if (j == 1) {
+                            alert('Số lượng bán trong kho không đủ');
+                        }
+                        console.log(order_product_id[i]);
+                        $('.color_qty_' + order_product_id[i]).css('background', '#000')
+                    }
+                }
+                if ( j == 0) {
+                    $.ajax({
                     url: "{{ url('/update-order-status') }}",
                     method: 'POST',
                     data: {
@@ -539,6 +556,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         location.reload();
                     }
                 })
+                }
+                
+
+                
             });
         })
     </script>

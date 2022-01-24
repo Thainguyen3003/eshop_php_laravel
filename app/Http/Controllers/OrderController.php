@@ -237,12 +237,29 @@ class OrderController extends Controller
                     }
                 }
             }
+        } elseif($order->order_status != 2 && $order->order_status != 3  ) {
+            foreach ($request->order_product_id as $key1 => $product_id) {
+                $product = Product::find($product_id);
+                $product_quantity = $product->product_quantity;
+                $product_sold = $product->product_sold;
+                foreach ($request->product_sales_quantity as $key2 => $qty) {
+
+                    if($key1 == $key2) {
+                        $pro_remain = $product_quantity + $qty;
+                        $product->product_quantity = $pro_remain;
+                        $product->product_sold = $product_sold - $qty;
+                        $product->save();
+                    }
+                }
+            }
         }
     }
 
     public function update_qty_order(Request $request) {
-        $order_details = OrderDetails::where('product_id', $request->order_product_id)
-        ->where('order_code', $request->order_code)->first();
+        $order_details = OrderDetails::where([
+            ['product_id', $request->order_product_id],
+            ['order_code', $request->order_code]
+        ])->first();
         $order_details->product_sales_quantity = $request->product_sales_quantity;
         $order_details->save();
     }

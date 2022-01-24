@@ -100,7 +100,7 @@
                                 $subtotal = $detail->product_price * $detail->product_sales_quantity;
                                 $total += $subtotal;
                             @endphp
-                            <tr>
+                            <tr class="color_qty_{{$detail->product_id}}">
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $detail->product_name }}</td>
                                 <td>{{ $detail->product->product_quantity }}</td>
@@ -113,10 +113,13 @@
                                 </td>
                                 <td>
                                     <form action="" method="post">
-                                        <input type="number" min="1" class="order_qty_{{$detail->product_id}}" value="{{ $detail->product_sales_quantity }}" name="product_sales_quantity">
+                                        <input type="number" min="1" {{ $order->order_status==2 ? 'disabled' : '' }} class="order_qty_{{$detail->product_id}}" value="{{ $detail->product_sales_quantity }}" name="product_sales_quantity">
+                                        <input type="hidden" name="order_qty_storage" class="order_qty_storage_{{$detail->product_id}}" value="{{ $detail->product->product_quantity }}">
                                         <input type="hidden" name="order_code" class="order_code" value="{{ $detail->order_code }}">
                                         <input type="hidden" name="order_product_id" class="order_product_id" value="{{ $detail->product_id }}">
-                                        <button type="button" class="btn btn-default update_quantity_order" data-product_id="{{$detail->product_id}}" name="update-quantity">Cập nhật</button>
+                                        @if ($order->order_status != 2)
+                                            <button type="button" class="btn btn-default update_quantity_order" data-product_id="{{$detail->product_id}}" name="update-quantity">Cập nhật</button>
+                                        @endif
                                     </form>
                                 </td>
                                 <td>{{ number_format($detail->product_price, 0, ',', '.') . ' VNĐ' }}</td>
